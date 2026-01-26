@@ -9,6 +9,10 @@ use serde_json::{Map, Value, json};
 use std::env;
 use std::io::Write;
 use std::time::Duration;
+use tungstenite::Message;
+use tungstenite::client::IntoClientRequest;
+use tungstenite::connect;
+use tungstenite::http::{HeaderName, HeaderValue};
 
 fn main() {
     if let Err(err) = run() {
@@ -95,6 +99,11 @@ fn run() -> Result<()> {
             "body": body,
         });
         return write_output(&output, pretty);
+    }
+
+    if op.method == "WS" {
+        execute_websocket(url, headers)?;
+        return Ok(());
     }
 
     let client = Client::builder()
@@ -213,7 +222,15 @@ fn build_cli(tree: &CommandTree) -> Command {
                 .long("body")
                 .global(true)
                 .value_name("JSON")
-                .help("Provide full JSON body for POST/PATCH"),
+                .help("Provide full JSON body for POST/PATCH/PUT"),
+        )
+        .arg(
+            Arg::new("header")
+                .long("header")
+                .global(true)
+                .action(ArgAction::Append)
+                .value_name("KEY=VALUE")
+                .help("Add custom header (repeatable, KEY=VALUE or KEY:VALUE)"),
         );
 
     cmd = cmd.subcommand(
@@ -439,7 +456,7 @@ fn build_request(
     body_override: Option<&str>,
 ) -> Result<(Url, Vec<(String, String)>, Option<Value>)> {
     let mut path = op.path.clone();
-    let mut headers = Vec::new();
+    let mut headers = parse_global_headers(matches)?;
 
     for arg in &op.args {
         if arg.location != "path" {
@@ -452,7 +469,12 @@ fn build_request(
         path = path.replace(&token, value);
     }
 
-    let mut url = Url::parse(base_url)?.join(path.trim_start_matches('/'))?;
+    let base = if op.method == "WS" {
+        ws_base_url(base_url)?
+    } else {
+        base_url.to_string()
+    };
+    let mut url = Url::parse(&base)?.join(path.trim_start_matches('/'))?;
 
     add_query_params(&mut url, op, matches)?;
     add_headers(&mut headers, op, matches)?;
@@ -637,6 +659,11 @@ fn validate_json(value: &str) -> Result<()> {
 }
 
 fn set_json_path(root: &mut Value, path: &str, value: Value) -> Result<()> {
+    if path == "$" {
+        *root = value;
+        return Ok(());
+    }
+
     let segments: Vec<&str> = path.split('.').collect();
     if segments.is_empty() {
         return Err(anyhow!("invalid body path"));
@@ -666,6 +693,62 @@ fn write_output(value: &Value, pretty: bool) -> Result<()> {
         write_stdout_line(&serde_json::to_string_pretty(value)?)
     } else {
         write_stdout_line(&serde_json::to_string(value)?)
+    }
+}
+
+fn parse_global_headers(matches: &ArgMatches) -> Result<Vec<(String, String)>> {
+    let mut headers = Vec::new();
+    if let Some(values) = matches.get_many::<String>("header") {
+        for raw in values {
+            let (key, value) = parse_header(raw)?;
+            headers.push((key, value));
+        }
+    }
+    Ok(headers)
+}
+
+fn parse_header(raw: &str) -> Result<(String, String)> {
+    if let Some((key, value)) = raw.split_once('=') {
+        return Ok((key.trim().to_string(), value.trim().to_string()));
+    }
+    if let Some((key, value)) = raw.split_once(':') {
+        return Ok((key.trim().to_string(), value.trim().to_string()));
+    }
+    Err(anyhow!("invalid header format, expected KEY=VALUE or KEY:VALUE"))
+}
+
+fn ws_base_url(base_url: &str) -> Result<String> {
+    let mut url = Url::parse(base_url)?;
+    match url.scheme() {
+        "https" => url.set_scheme("wss").map_err(|_| anyhow!("invalid ws scheme"))?,
+        "http" => url.set_scheme("ws").map_err(|_| anyhow!("invalid ws scheme"))?,
+        "wss" | "ws" => {}
+        _ => return Err(anyhow!("unsupported ws base url scheme")),
+    }
+    Ok(url.to_string())
+}
+
+fn execute_websocket(url: Url, headers: Vec<(String, String)>) -> Result<()> {
+    let mut request = url.as_str().into_client_request()?;
+    for (key, value) in headers {
+        let name = HeaderName::from_bytes(key.as_bytes())?;
+        let value = HeaderValue::from_str(&value)?;
+        request.headers_mut().append(name, value);
+    }
+
+    let (mut socket, _response) = connect(request)?;
+    loop {
+        match socket.read() {
+            Ok(Message::Text(text)) => {
+                write_stdout_line(&text)?;
+            }
+            Ok(Message::Binary(bin)) => {
+                write_stdout_line(&format!("binary: {} bytes", bin.len()))?;
+            }
+            Ok(Message::Close(_)) => return Ok(()),
+            Ok(_) => {}
+            Err(err) => return Err(err.into()),
+        }
     }
 }
 

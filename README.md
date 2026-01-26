@@ -1,6 +1,6 @@
 # OpenPanel CLI
 
-CLI for the OpenPanel API (track, export, insights, manage). Command tree is driven by `schemas/command_tree.json`.
+CLI for the OpenPanel API. Command tree is driven by `schemas/command_tree.json`.
 
 ## Install
 
@@ -22,6 +22,11 @@ brew install openpanel
 Grab the latest `openpanel-macos-arm64` asset from GitHub Releases and place it on your `PATH`.
 
 ## Auth
+
+Create a client in the OpenPanel dashboard (Organization → API Clients). Client types:
+- `write`: track/event/profile
+- `read`: export/import/insights
+- `root`: manage
 
 Set environment variables (recommended):
 
@@ -63,10 +68,28 @@ Identify user:
 openpanel track identify --profile-id user_123 --email a@b.com --properties '{"tier":"pro"}'
 ```
 
+Alias:
+
+```bash
+openpanel track alias --profile-id user_123 --alias legacy_456
+```
+
 Increment:
 
 ```bash
 openpanel track increment --profile-id user_123 --property visits --value 1
+```
+
+Event ingest (deprecated):
+
+```bash
+openpanel event post --name screen_view --properties '{"path":"/"}'
+```
+
+Profile update:
+
+```bash
+openpanel profile update --profile-id user_123 --email a@b.com
 ```
 
 Export events:
@@ -86,6 +109,12 @@ openpanel export charts \
   --range 30d
 ```
 
+Import events (JSON array):
+
+```bash
+openpanel import events --events '[{"name":"screen_view","profileId":"u1","created_at":"2024-01-01T00:00:00Z","properties":{}}]'
+```
+
 Insights metrics:
 
 ```bash
@@ -99,12 +128,26 @@ openpanel manage projects list
 openpanel manage projects create --name "My Project" --domain https://example.com --types website
 ```
 
+Misc:
+
+```bash
+openpanel misc favicon --url https://example.com
+openpanel misc geo
+```
+
+Live websocket (requires session cookies in most setups):
+
+```bash
+openpanel live events --project-id my-project --header "cookie=YOUR_SESSION_COOKIE"
+```
+
 ## Output
 
 - `--pretty` for formatted JSON
 - `--raw` for status/headers/body
 - `--dry-run` to print the request without sending
-- `--body` to pass full JSON for POST/PATCH
+- `--body` to pass full JSON for POST/PATCH/PUT
+- `--header` to add custom headers (repeatable)
 
 ## Notes
 

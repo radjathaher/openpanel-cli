@@ -24,6 +24,15 @@
               "path": "payload.name"
             },
             {
+              "name": "profile_id",
+              "flag": "profile-id",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.profileId"
+            },
+            {
               "name": "properties",
               "flag": "properties",
               "location": "body",
@@ -98,6 +107,15 @@
               "path": "payload.email"
             },
             {
+              "name": "avatar",
+              "flag": "avatar",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.avatar"
+            },
+            {
               "name": "properties",
               "flag": "properties",
               "location": "body",
@@ -157,7 +175,7 @@
               "name": "value",
               "flag": "value",
               "location": "body",
-              "required": true,
+              "required": false,
               "list": false,
               "value_type": "float",
               "path": "payload.value"
@@ -213,10 +231,57 @@
               "name": "value",
               "flag": "value",
               "location": "body",
-              "required": true,
+              "required": false,
               "list": false,
               "value_type": "float",
               "path": "payload.value"
+            },
+            {
+              "name": "ip",
+              "flag": "ip",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "x-client-ip"
+            },
+            {
+              "name": "user_agent",
+              "flag": "user-agent",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "user-agent"
+            }
+          ]
+        },
+        {
+          "name": "alias",
+          "method": "POST",
+          "path": "/track",
+          "description": "Alias a profile",
+          "body_defaults": {
+            "type": "alias"
+          },
+          "args": [
+            {
+              "name": "profile_id",
+              "flag": "profile-id",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.profileId"
+            },
+            {
+              "name": "alias",
+              "flag": "alias",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.alias"
             },
             {
               "name": "ip",
@@ -244,6 +309,266 @@
           "path": "/track/device-id",
           "description": "Fetch device ID",
           "args": []
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "event",
+      "ops": [
+        {
+          "name": "post",
+          "method": "POST",
+          "path": "/event",
+          "description": "Deprecated event ingest",
+          "args": [
+            {
+              "name": "name",
+              "flag": "name",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "name"
+            },
+            {
+              "name": "timestamp",
+              "flag": "timestamp",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "timestamp"
+            },
+            {
+              "name": "profile_id",
+              "flag": "profile-id",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "profileId"
+            },
+            {
+              "name": "properties",
+              "flag": "properties",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "json",
+              "path": "properties"
+            },
+            {
+              "name": "ip",
+              "flag": "ip",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "x-client-ip"
+            },
+            {
+              "name": "user_agent",
+              "flag": "user-agent",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "user-agent"
+            }
+          ]
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "profile",
+      "ops": [
+        {
+          "name": "update",
+          "method": "POST",
+          "path": "/profile",
+          "description": "Update profile",
+          "args": [
+            {
+              "name": "profile_id",
+              "flag": "profile-id",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "profileId"
+            },
+            {
+              "name": "first_name",
+              "flag": "first-name",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "firstName"
+            },
+            {
+              "name": "last_name",
+              "flag": "last-name",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "lastName"
+            },
+            {
+              "name": "email",
+              "flag": "email",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "email"
+            },
+            {
+              "name": "avatar",
+              "flag": "avatar",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "avatar"
+            },
+            {
+              "name": "properties",
+              "flag": "properties",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "json",
+              "path": "properties"
+            },
+            {
+              "name": "ip",
+              "flag": "ip",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "x-client-ip"
+            },
+            {
+              "name": "user_agent",
+              "flag": "user-agent",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "user-agent"
+            }
+          ]
+        },
+        {
+          "name": "increment",
+          "method": "POST",
+          "path": "/profile/increment",
+          "description": "Increment profile property",
+          "args": [
+            {
+              "name": "profile_id",
+              "flag": "profile-id",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "profileId"
+            },
+            {
+              "name": "property",
+              "flag": "property",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "property"
+            },
+            {
+              "name": "value",
+              "flag": "value",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "float",
+              "path": "value"
+            },
+            {
+              "name": "ip",
+              "flag": "ip",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "x-client-ip"
+            },
+            {
+              "name": "user_agent",
+              "flag": "user-agent",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "user-agent"
+            }
+          ]
+        },
+        {
+          "name": "decrement",
+          "method": "POST",
+          "path": "/profile/decrement",
+          "description": "Decrement profile property",
+          "args": [
+            {
+              "name": "profile_id",
+              "flag": "profile-id",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "profileId"
+            },
+            {
+              "name": "property",
+              "flag": "property",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "property"
+            },
+            {
+              "name": "value",
+              "flag": "value",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "float",
+              "path": "value"
+            },
+            {
+              "name": "ip",
+              "flag": "ip",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "x-client-ip"
+            },
+            {
+              "name": "user_agent",
+              "flag": "user-agent",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "user-agent"
+            }
+          ]
         }
       ],
       "groups": []
@@ -392,6 +717,29 @@
               "required": false,
               "list": false,
               "value_type": "string"
+            }
+          ]
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "import",
+      "ops": [
+        {
+          "name": "events",
+          "method": "POST",
+          "path": "/import/events",
+          "description": "Import events (JSON array)",
+          "args": [
+            {
+              "name": "events",
+              "flag": "events",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "json",
+              "path": "$"
             }
           ]
         }
@@ -2098,6 +2446,324 @@
           ]
         }
       ]
+    },
+    {
+      "name": "misc",
+      "ops": [
+        {
+          "name": "ping",
+          "method": "POST",
+          "path": "/misc/ping",
+          "description": "Ping (self-hosting)",
+          "args": [
+            {
+              "name": "domain",
+              "flag": "domain",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "domain"
+            },
+            {
+              "name": "count",
+              "flag": "count",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "int",
+              "path": "count"
+            }
+          ]
+        },
+        {
+          "name": "stats",
+          "method": "GET",
+          "path": "/misc/stats",
+          "description": "API stats",
+          "args": []
+        },
+        {
+          "name": "favicon",
+          "method": "GET",
+          "path": "/misc/favicon",
+          "description": "Favicon proxy",
+          "args": [
+            {
+              "name": "url",
+              "flag": "url",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        },
+        {
+          "name": "og",
+          "method": "GET",
+          "path": "/misc/og",
+          "description": "OG image proxy",
+          "args": [
+            {
+              "name": "url",
+              "flag": "url",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        },
+        {
+          "name": "og-clear",
+          "method": "GET",
+          "path": "/misc/og/clear",
+          "description": "Clear OG cache",
+          "args": []
+        },
+        {
+          "name": "favicon-clear",
+          "method": "GET",
+          "path": "/misc/favicon/clear",
+          "description": "Clear favicon cache",
+          "args": []
+        },
+        {
+          "name": "geo",
+          "method": "GET",
+          "path": "/misc/geo",
+          "description": "Geo lookup",
+          "args": []
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "webhook",
+      "ops": [
+        {
+          "name": "slack",
+          "method": "GET",
+          "path": "/webhook/slack",
+          "description": "Slack OAuth callback",
+          "args": [
+            {
+              "name": "code",
+              "flag": "code",
+              "location": "query",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "state",
+              "flag": "state",
+              "location": "query",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        },
+        {
+          "name": "polar",
+          "method": "POST",
+          "path": "/webhook/polar",
+          "description": "Polar webhook",
+          "args": []
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "oauth",
+      "ops": [
+        {
+          "name": "github-callback",
+          "method": "GET",
+          "path": "/oauth/github/callback",
+          "description": "GitHub OAuth callback",
+          "args": [
+            {
+              "name": "code",
+              "flag": "code",
+              "location": "query",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "state",
+              "flag": "state",
+              "location": "query",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        },
+        {
+          "name": "google-callback",
+          "method": "GET",
+          "path": "/oauth/google/callback",
+          "description": "Google OAuth callback",
+          "args": [
+            {
+              "name": "code",
+              "flag": "code",
+              "location": "query",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "state",
+              "flag": "state",
+              "location": "query",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "ai",
+      "ops": [
+        {
+          "name": "chat",
+          "method": "POST",
+          "path": "/ai/chat",
+          "description": "AI chat (requires session cookie)",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "query",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "messages",
+              "flag": "messages",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "json",
+              "path": "messages"
+            }
+          ]
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "live",
+      "ops": [
+        {
+          "name": "organization",
+          "method": "WS",
+          "path": "/live/organization/{organizationId}",
+          "description": "Live organization stream",
+          "args": [
+            {
+              "name": "organizationId",
+              "flag": "organization-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        },
+        {
+          "name": "visitors",
+          "method": "WS",
+          "path": "/live/visitors/{projectId}",
+          "description": "Live visitors stream",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        },
+        {
+          "name": "events",
+          "method": "WS",
+          "path": "/live/events/{projectId}",
+          "description": "Live events stream",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        },
+        {
+          "name": "notifications",
+          "method": "WS",
+          "path": "/live/notifications/{projectId}",
+          "description": "Live notifications stream",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "health",
+      "ops": [
+        {
+          "name": "status",
+          "method": "GET",
+          "path": "/",
+          "description": "API status",
+          "args": []
+        },
+        {
+          "name": "healthcheck",
+          "method": "GET",
+          "path": "/healthcheck",
+          "description": "Legacy healthcheck",
+          "args": []
+        },
+        {
+          "name": "live",
+          "method": "GET",
+          "path": "/healthz/live",
+          "description": "Liveness probe",
+          "args": []
+        },
+        {
+          "name": "ready",
+          "method": "GET",
+          "path": "/healthz/ready",
+          "description": "Readiness probe",
+          "args": []
+        }
+      ],
+      "groups": []
     }
   ]
 }
