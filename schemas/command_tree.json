@@ -1,0 +1,2103 @@
+{
+  "version": 1,
+  "base_url": "https://api.openpanel.dev",
+  "resources": [
+    {
+      "name": "track",
+      "ops": [
+        {
+          "name": "event",
+          "method": "POST",
+          "path": "/track",
+          "description": "Track an event",
+          "body_defaults": {
+            "type": "track"
+          },
+          "args": [
+            {
+              "name": "name",
+              "flag": "name",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.name"
+            },
+            {
+              "name": "properties",
+              "flag": "properties",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "json",
+              "path": "payload.properties"
+            },
+            {
+              "name": "ip",
+              "flag": "ip",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "x-client-ip"
+            },
+            {
+              "name": "user_agent",
+              "flag": "user-agent",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "user-agent"
+            }
+          ]
+        },
+        {
+          "name": "identify",
+          "method": "POST",
+          "path": "/track",
+          "description": "Identify a profile",
+          "body_defaults": {
+            "type": "identify"
+          },
+          "args": [
+            {
+              "name": "profile_id",
+              "flag": "profile-id",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.profileId"
+            },
+            {
+              "name": "first_name",
+              "flag": "first-name",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.firstName"
+            },
+            {
+              "name": "last_name",
+              "flag": "last-name",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.lastName"
+            },
+            {
+              "name": "email",
+              "flag": "email",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.email"
+            },
+            {
+              "name": "properties",
+              "flag": "properties",
+              "location": "body",
+              "required": false,
+              "list": false,
+              "value_type": "json",
+              "path": "payload.properties"
+            },
+            {
+              "name": "ip",
+              "flag": "ip",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "x-client-ip"
+            },
+            {
+              "name": "user_agent",
+              "flag": "user-agent",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "user-agent"
+            }
+          ]
+        },
+        {
+          "name": "increment",
+          "method": "POST",
+          "path": "/track",
+          "description": "Increment a numeric profile property",
+          "body_defaults": {
+            "type": "increment"
+          },
+          "args": [
+            {
+              "name": "profile_id",
+              "flag": "profile-id",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.profileId"
+            },
+            {
+              "name": "property",
+              "flag": "property",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.property"
+            },
+            {
+              "name": "value",
+              "flag": "value",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "float",
+              "path": "payload.value"
+            },
+            {
+              "name": "ip",
+              "flag": "ip",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "x-client-ip"
+            },
+            {
+              "name": "user_agent",
+              "flag": "user-agent",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "user-agent"
+            }
+          ]
+        },
+        {
+          "name": "decrement",
+          "method": "POST",
+          "path": "/track",
+          "description": "Decrement a numeric profile property",
+          "body_defaults": {
+            "type": "decrement"
+          },
+          "args": [
+            {
+              "name": "profile_id",
+              "flag": "profile-id",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.profileId"
+            },
+            {
+              "name": "property",
+              "flag": "property",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "string",
+              "path": "payload.property"
+            },
+            {
+              "name": "value",
+              "flag": "value",
+              "location": "body",
+              "required": true,
+              "list": false,
+              "value_type": "float",
+              "path": "payload.value"
+            },
+            {
+              "name": "ip",
+              "flag": "ip",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "x-client-ip"
+            },
+            {
+              "name": "user_agent",
+              "flag": "user-agent",
+              "location": "header",
+              "required": false,
+              "list": false,
+              "value_type": "string",
+              "header_name": "user-agent"
+            }
+          ]
+        },
+        {
+          "name": "device-id",
+          "method": "GET",
+          "path": "/track/device-id",
+          "description": "Fetch device ID",
+          "args": []
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "export",
+      "ops": [
+        {
+          "name": "events",
+          "method": "GET",
+          "path": "/export/events",
+          "description": "List events",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "query",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "profileId",
+              "flag": "profile-id",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "event",
+              "flag": "event",
+              "location": "query",
+              "required": false,
+              "list": true,
+              "value_type": "string"
+            },
+            {
+              "name": "start",
+              "flag": "start",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "end",
+              "flag": "end",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "page",
+              "flag": "page",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "includes",
+              "flag": "includes",
+              "location": "query",
+              "required": false,
+              "list": true,
+              "value_type": "string"
+            }
+          ]
+        },
+        {
+          "name": "charts",
+          "method": "GET",
+          "path": "/export/charts",
+          "description": "Fetch chart data",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "query",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "events",
+              "flag": "events",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "breakdowns",
+              "flag": "breakdowns",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "interval",
+              "flag": "interval",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "previous",
+              "flag": "previous",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "bool"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "insights",
+      "ops": [
+        {
+          "name": "metrics",
+          "method": "GET",
+          "path": "/insights/{projectId}/metrics",
+          "description": "Metrics overview",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "live",
+          "method": "GET",
+          "path": "/insights/{projectId}/live",
+          "description": "Live visitors",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            }
+          ]
+        },
+        {
+          "name": "pages",
+          "method": "GET",
+          "path": "/insights/{projectId}/pages",
+          "description": "Top pages",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "referrer",
+          "method": "GET",
+          "path": "/insights/{projectId}/referrer",
+          "description": "Referrer URLs",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "referrer-name",
+          "method": "GET",
+          "path": "/insights/{projectId}/referrer_name",
+          "description": "Referrer names",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "referrer-type",
+          "method": "GET",
+          "path": "/insights/{projectId}/referrer_type",
+          "description": "Referrer types",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "utm-source",
+          "method": "GET",
+          "path": "/insights/{projectId}/utm_source",
+          "description": "UTM source",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "utm-medium",
+          "method": "GET",
+          "path": "/insights/{projectId}/utm_medium",
+          "description": "UTM medium",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "utm-campaign",
+          "method": "GET",
+          "path": "/insights/{projectId}/utm_campaign",
+          "description": "UTM campaign",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "utm-term",
+          "method": "GET",
+          "path": "/insights/{projectId}/utm_term",
+          "description": "UTM term",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "utm-content",
+          "method": "GET",
+          "path": "/insights/{projectId}/utm_content",
+          "description": "UTM content",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "country",
+          "method": "GET",
+          "path": "/insights/{projectId}/country",
+          "description": "Country breakdown",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "region",
+          "method": "GET",
+          "path": "/insights/{projectId}/region",
+          "description": "Region breakdown",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "city",
+          "method": "GET",
+          "path": "/insights/{projectId}/city",
+          "description": "City breakdown",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "device",
+          "method": "GET",
+          "path": "/insights/{projectId}/device",
+          "description": "Device breakdown",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "browser",
+          "method": "GET",
+          "path": "/insights/{projectId}/browser",
+          "description": "Browser breakdown",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "browser-version",
+          "method": "GET",
+          "path": "/insights/{projectId}/browser_version",
+          "description": "Browser version breakdown",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "os",
+          "method": "GET",
+          "path": "/insights/{projectId}/os",
+          "description": "OS breakdown",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "os-version",
+          "method": "GET",
+          "path": "/insights/{projectId}/os_version",
+          "description": "OS version breakdown",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "brand",
+          "method": "GET",
+          "path": "/insights/{projectId}/brand",
+          "description": "Device brand breakdown",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        },
+        {
+          "name": "model",
+          "method": "GET",
+          "path": "/insights/{projectId}/model",
+          "description": "Device model breakdown",
+          "args": [
+            {
+              "name": "projectId",
+              "flag": "project-id",
+              "location": "path",
+              "required": true,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "startDate",
+              "flag": "start-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "endDate",
+              "flag": "end-date",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "range",
+              "flag": "range",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "string"
+            },
+            {
+              "name": "filters",
+              "flag": "filters",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "json"
+            },
+            {
+              "name": "cursor",
+              "flag": "cursor",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            },
+            {
+              "name": "limit",
+              "flag": "limit",
+              "location": "query",
+              "required": false,
+              "list": false,
+              "value_type": "int"
+            }
+          ]
+        }
+      ],
+      "groups": []
+    },
+    {
+      "name": "manage",
+      "ops": [],
+      "groups": [
+        {
+          "name": "projects",
+          "ops": [
+            {
+              "name": "list",
+              "method": "GET",
+              "path": "/manage/projects",
+              "description": "List projects",
+              "args": []
+            },
+            {
+              "name": "get",
+              "method": "GET",
+              "path": "/manage/projects/{id}",
+              "description": "Get project",
+              "args": [
+                {
+                  "name": "id",
+                  "flag": "id",
+                  "location": "path",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            },
+            {
+              "name": "create",
+              "method": "POST",
+              "path": "/manage/projects",
+              "description": "Create project",
+              "args": [
+                {
+                  "name": "name",
+                  "flag": "name",
+                  "location": "body",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "domain",
+                  "flag": "domain",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string",
+                  "nullable": true
+                },
+                {
+                  "name": "cors",
+                  "flag": "cors",
+                  "location": "body",
+                  "required": false,
+                  "list": true,
+                  "value_type": "string"
+                },
+                {
+                  "name": "crossDomain",
+                  "flag": "cross-domain",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "bool"
+                },
+                {
+                  "name": "types",
+                  "flag": "types",
+                  "location": "body",
+                  "required": false,
+                  "list": true,
+                  "value_type": "string"
+                }
+              ]
+            },
+            {
+              "name": "update",
+              "method": "PATCH",
+              "path": "/manage/projects/{id}",
+              "description": "Update project",
+              "args": [
+                {
+                  "name": "id",
+                  "flag": "id",
+                  "location": "path",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "name",
+                  "flag": "name",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "domain",
+                  "flag": "domain",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string",
+                  "nullable": true
+                },
+                {
+                  "name": "cors",
+                  "flag": "cors",
+                  "location": "body",
+                  "required": false,
+                  "list": true,
+                  "value_type": "string"
+                },
+                {
+                  "name": "crossDomain",
+                  "flag": "cross-domain",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "bool"
+                },
+                {
+                  "name": "allowUnsafeRevenueTracking",
+                  "flag": "allow-unsafe-revenue-tracking",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "bool"
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "method": "DELETE",
+              "path": "/manage/projects/{id}",
+              "description": "Delete project",
+              "args": [
+                {
+                  "name": "id",
+                  "flag": "id",
+                  "location": "path",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "clients",
+          "ops": [
+            {
+              "name": "list",
+              "method": "GET",
+              "path": "/manage/clients",
+              "description": "List clients",
+              "args": [
+                {
+                  "name": "projectId",
+                  "flag": "project-id",
+                  "location": "query",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            },
+            {
+              "name": "get",
+              "method": "GET",
+              "path": "/manage/clients/{id}",
+              "description": "Get client",
+              "args": [
+                {
+                  "name": "id",
+                  "flag": "id",
+                  "location": "path",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            },
+            {
+              "name": "create",
+              "method": "POST",
+              "path": "/manage/clients",
+              "description": "Create client",
+              "args": [
+                {
+                  "name": "name",
+                  "flag": "name",
+                  "location": "body",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "projectId",
+                  "flag": "project-id",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "type",
+                  "flag": "type",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            },
+            {
+              "name": "update",
+              "method": "PATCH",
+              "path": "/manage/clients/{id}",
+              "description": "Update client",
+              "args": [
+                {
+                  "name": "id",
+                  "flag": "id",
+                  "location": "path",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "name",
+                  "flag": "name",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "method": "DELETE",
+              "path": "/manage/clients/{id}",
+              "description": "Delete client",
+              "args": [
+                {
+                  "name": "id",
+                  "flag": "id",
+                  "location": "path",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "references",
+          "ops": [
+            {
+              "name": "list",
+              "method": "GET",
+              "path": "/manage/references",
+              "description": "List references",
+              "args": [
+                {
+                  "name": "projectId",
+                  "flag": "project-id",
+                  "location": "query",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            },
+            {
+              "name": "get",
+              "method": "GET",
+              "path": "/manage/references/{id}",
+              "description": "Get reference",
+              "args": [
+                {
+                  "name": "id",
+                  "flag": "id",
+                  "location": "path",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            },
+            {
+              "name": "create",
+              "method": "POST",
+              "path": "/manage/references",
+              "description": "Create reference",
+              "args": [
+                {
+                  "name": "projectId",
+                  "flag": "project-id",
+                  "location": "body",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "title",
+                  "flag": "title",
+                  "location": "body",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "description",
+                  "flag": "description",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "datetime",
+                  "flag": "datetime",
+                  "location": "body",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            },
+            {
+              "name": "update",
+              "method": "PATCH",
+              "path": "/manage/references/{id}",
+              "description": "Update reference",
+              "args": [
+                {
+                  "name": "id",
+                  "flag": "id",
+                  "location": "path",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "title",
+                  "flag": "title",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string"
+                },
+                {
+                  "name": "description",
+                  "flag": "description",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string",
+                  "nullable": true
+                },
+                {
+                  "name": "datetime",
+                  "flag": "datetime",
+                  "location": "body",
+                  "required": false,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "method": "DELETE",
+              "path": "/manage/references/{id}",
+              "description": "Delete reference",
+              "args": [
+                {
+                  "name": "id",
+                  "flag": "id",
+                  "location": "path",
+                  "required": true,
+                  "list": false,
+                  "value_type": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
