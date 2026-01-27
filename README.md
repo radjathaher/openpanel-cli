@@ -19,7 +19,7 @@ brew install openpanel
 
 ### Download binary
 
-Grab the latest `openpanel-macos-arm64` asset from GitHub Releases and place it on your `PATH`.
+Grab the latest `openpanel-cli-<version>-<os>-<arch>.tar.gz` asset from GitHub Releases, unpack, and place `openpanel` on your `PATH`.
 
 ## Auth
 
