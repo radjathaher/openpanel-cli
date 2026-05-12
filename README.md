@@ -98,6 +98,44 @@ Export events:
 openpanel export events --project-id my-project --event screen_view --start 2024-04-15 --end 2024-04-18
 ```
 
+Efficient event query:
+
+```bash
+openpanel events query \
+  --project-id my-project \
+  --day 2026-05-12 \
+  --tz-offset +07:00 \
+  --events screen_view,quiz_started,payment_completed \
+  --where 'country=US and properties.utm_source=meta' \
+  --select createdAt,name,sessionId,country,properties.utm_content \
+  --format jsonl \
+  --output /tmp/openpanel-events.jsonl
+```
+
+Funnel summary:
+
+```bash
+openpanel analytics funnel \
+  --project-id my-project \
+  --day 2026-05-12 \
+  --tz-offset +07:00 \
+  --where 'country=US and properties.utm_source=meta' \
+  --steps screen_view,quiz_started,paywall_viewed,checkout_clicked,payment_completed \
+  --unit sessionId
+```
+
+Debug export pagination:
+
+```bash
+openpanel export events \
+  --project-id my-project \
+  --event screen_view \
+  --start 2026-05-11T17:00:00Z \
+  --end 2026-05-12T16:59:59Z \
+  --limit 100 \
+  --debug-pagination
+```
+
 Export charts:
 
 ```bash
@@ -153,3 +191,6 @@ openpanel live events --project-id my-project --header "cookie=YOUR_SESSION_COOK
 
 - Arrays can be repeated flags or JSON arrays (e.g. `--event a --event b` or `--event '["a","b"]'`).
 - JSON flags must be valid JSON strings.
+- `events query` and `analytics funnel` are workflow commands. They paginate `/export/events`, retry transient failures, exact-filter `createdAt` client-side, and stream compact output.
+- OpenPanel `/export/events` currently filters dates at day granularity server-side, so timestamp-exact analysis should use `events query` or `analytics funnel`.
+- Use `--day YYYY-MM-DD --tz-offset +07:00` for WIB calendar days.
