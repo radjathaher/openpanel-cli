@@ -26,7 +26,7 @@ Grab the latest `openpanel-cli-<version>-<os>-<arch>.tar.gz` asset from GitHub R
 Create a client in the OpenPanel dashboard (Organization → API Clients). Client types:
 - `write`: track/event/profile
 - `read`: export/import/insights
-- `root`: manage
+- `root`: organization-wide access to all APIs, including manage endpoints
 
 Set environment variables (recommended):
 
@@ -40,6 +40,23 @@ Optional:
 ```bash
 export OPENPANEL_API_URL=https://api.openpanel.dev
 ```
+
+For self-hosted OpenPanel, point the CLI at that API host:
+
+```bash
+export OPENPANEL_API_URL=https://op-api.example.com
+```
+
+Validate the configured client:
+
+```bash
+openpanel auth doctor --project-id my-project --pretty
+```
+
+`auth doctor` classifies the current credentials as:
+- `root`: Manage and Insights probes work.
+- `read`: Insights works, Manage does not.
+- `write_or_invalid`: official analytics reads do not work; this is common when using a frontend tracking client.
 
 ## Usage
 

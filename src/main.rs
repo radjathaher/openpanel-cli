@@ -70,6 +70,23 @@ fn run() -> Result<()> {
         .subcommand()
         .ok_or_else(|| anyhow!("resource required"))?;
 
+    if resource_name == "auth" {
+        let ("doctor", doctor_matches) = resource_matches
+            .subcommand()
+            .ok_or_else(|| anyhow!("operation required"))?
+        else {
+            return Err(anyhow!("unknown auth operation"));
+        };
+        return handle_auth_doctor(
+            &base_url,
+            &client_id,
+            &client_secret,
+            timeout,
+            pretty,
+            doctor_matches,
+        );
+    }
+
     if resource_name == "events" {
         let ("query", query_matches) = resource_matches
             .subcommand()
@@ -201,7 +218,11 @@ fn run() -> Result<()> {
 
     if !status.is_success() {
         write_output(&value, pretty)?;
-        return Err(anyhow!("http {}", status));
+        return Err(anyhow!(
+            "http {}{}",
+            status,
+            auth_error_hint(resource_name, status)
+        ));
     }
 
     if resource_name == "export" && op_name == "events" && op_matches.get_flag("debug_pagination") {
@@ -337,6 +358,24 @@ fn build_cli(tree: &CommandTree) -> Command {
                 .action(ArgAction::SetTrue)
                 .help("Emit machine-readable JSON"),
         ),
+    );
+
+    cmd = cmd.subcommand(
+        Command::new("auth")
+            .about("Authentication diagnostics")
+            .subcommand_required(true)
+            .arg_required_else_help(true)
+            .subcommand(
+                Command::new("doctor")
+                    .about("Classify the configured OpenPanel API client as root, read, or write/invalid")
+                    .arg(Arg::new("project_id").long("project-id").required(true))
+                    .arg(
+                        Arg::new("range")
+                            .long("range")
+                            .default_value("today")
+                            .help("Insights range used for the read probe"),
+                    ),
+            ),
     );
 
     for resource in &tree.resources {
@@ -596,6 +635,183 @@ fn handle_tree(tree: &CommandTree, matches: &ArgMatches) -> Result<()> {
     }
     write_stdout_line("Run with --json for machine-readable output.")?;
     Ok(())
+}
+
+fn handle_auth_doctor(
+    base_url: &str,
+    client_id: &str,
+    client_secret: &str,
+    timeout: u64,
+    pretty: bool,
+    matches: &ArgMatches,
+) -> Result<()> {
+    let project_id = matches
+        .get_one::<String>("project_id")
+        .ok_or_else(|| anyhow!("project id required"))?;
+    let range = matches
+        .get_one::<String>("range")
+        .map(String::as_str)
+        .unwrap_or("today");
+
+    let client = Client::builder()
+        .user_agent("openpanel-cli")
+        .timeout(Duration::from_secs(timeout))
+        .build()
+        .context("build http client")?;
+
+    let projects = auth_probe(
+        &client,
+        base_url,
+        client_id,
+        client_secret,
+        "manage_projects",
+        "manage/projects",
+        &[],
+    )?;
+    let clients = auth_probe(
+        &client,
+        base_url,
+        client_id,
+        client_secret,
+        "manage_clients",
+        "manage/clients",
+        &[("projectId", project_id.as_str())],
+    )?;
+    let referrer_name = auth_probe(
+        &client,
+        base_url,
+        client_id,
+        client_secret,
+        "insights_referrer_name",
+        &format!("insights/{project_id}/referrer_name"),
+        &[("range", range)],
+    )?;
+
+    let manage_ok = projects.success && clients.success;
+    let insights_ok = referrer_name.success;
+    let classification = if manage_ok {
+        "root"
+    } else if insights_ok {
+        "read"
+    } else {
+        "write_or_invalid"
+    };
+    let explanation = match classification {
+        "root" => {
+            "Root client: Manage and Insights probes succeeded. This should be org/account-wide."
+        }
+        "read" => {
+            "Read client: Insights succeeded but Manage failed. Good for analytics, not org management."
+        }
+        _ => {
+            "Write-only or invalid client: official analytics reads failed. Frontend tracking clients usually land here."
+        }
+    };
+
+    let output = json!({
+        "classification": classification,
+        "explanation": explanation,
+        "apiUrl": base_url,
+        "projectId": project_id,
+        "probes": {
+            "manageProjects": projects.to_json(),
+            "manageClients": clients.to_json(),
+            "insightsReferrerName": referrer_name.to_json(),
+        }
+    });
+    write_output(&output, pretty)
+}
+
+struct AuthProbe {
+    name: String,
+    status: u16,
+    success: bool,
+    body: Value,
+}
+
+impl AuthProbe {
+    fn to_json(&self) -> Value {
+        json!({
+            "name": self.name,
+            "status": self.status,
+            "success": self.success,
+            "body": redact_secrets(self.body.clone()),
+        })
+    }
+}
+
+fn redact_secrets(value: Value) -> Value {
+    match value {
+        Value::Object(map) => Value::Object(
+            map.into_iter()
+                .map(|(key, value)| {
+                    let redacted = if is_secret_key(&key) {
+                        Value::String("<redacted>".to_string())
+                    } else {
+                        redact_secrets(value)
+                    };
+                    (key, redacted)
+                })
+                .collect(),
+        ),
+        Value::Array(values) => Value::Array(values.into_iter().map(redact_secrets).collect()),
+        other => other,
+    }
+}
+
+fn is_secret_key(key: &str) -> bool {
+    let key = key.to_ascii_lowercase();
+    key.contains("secret") || key.contains("token") || key == "password"
+}
+
+fn auth_probe(
+    client: &Client,
+    base_url: &str,
+    client_id: &str,
+    client_secret: &str,
+    name: &str,
+    path: &str,
+    query: &[(&str, &str)],
+) -> Result<AuthProbe> {
+    let mut url = Url::parse(base_url)?.join(path)?;
+    {
+        let mut pairs = url.query_pairs_mut();
+        for (key, value) in query {
+            pairs.append_pair(key, value);
+        }
+    }
+    let resp = client
+        .get(url)
+        .header("openpanel-client-id", client_id)
+        .header("openpanel-client-secret", client_secret)
+        .header("accept", "application/json")
+        .send()
+        .with_context(|| format!("send {name} probe"))?;
+    let status = resp.status();
+    let body = resp.json().unwrap_or_else(|_| Value::Null);
+
+    Ok(AuthProbe {
+        name: name.to_string(),
+        status: status.as_u16(),
+        success: status.is_success(),
+        body,
+    })
+}
+
+fn auth_error_hint(resource_name: &str, status: StatusCode) -> &'static str {
+    if status != StatusCode::UNAUTHORIZED && status != StatusCode::FORBIDDEN {
+        return "";
+    }
+
+    match resource_name {
+        "export" | "insights" => {
+            " — Export/Insights require an OpenPanel read or root client. Frontend/write clients can track events but cannot read analytics."
+        }
+        "manage" => {
+            " — Manage endpoints require an OpenPanel root client with organization-wide access."
+        }
+        _ => "",
+    }
 }
 
 fn build_arg(arg: &ArgDef) -> Arg {
